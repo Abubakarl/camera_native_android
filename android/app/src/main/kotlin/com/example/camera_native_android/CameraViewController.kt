@@ -21,7 +21,7 @@ class CameraViewController(
     private val cameraPreview: PreviewView = camera
     private var cameraDevice: Camera? = null
     private var isInitialized = false
-    private var currentLensFacing: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+    private var currentLensFacing: CameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
 
 
     /**
@@ -36,13 +36,13 @@ class CameraViewController(
 
             //Init imageCapture
             imageCapture = ImageCapture.Builder().apply {
-                setTargetAspectRatio(AspectRatio.RATIO_16_9)
+                setTargetAspectRatio(AspectRatio.RATIO_4_3)
                 setCameraSelector(currentLensFacing)
             }.build()
 
             videoCapture = VideoCapture.Builder().apply {
-                setTargetAspectRatio(AspectRatio.RATIO_16_9)
-                setVideoFrameRate(30)
+                setTargetAspectRatio(AspectRatio.RATIO_4_3)
+                setVideoFrameRate(60)
                 setCameraSelector(currentLensFacing)
             }.build()
 
@@ -51,11 +51,11 @@ class CameraViewController(
                     // Used to bind the lifecycle of cameras to the lifecycle owner
                     val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
                     val preview: Preview = Preview.Builder().apply {
-                        setTargetAspectRatio(AspectRatio.RATIO_16_9)
+                        setTargetAspectRatio(AspectRatio.RATIO_4_3)
                         setCameraSelector(currentLensFacing)
                     }.build()
                     preview.setSurfaceProvider(cameraPreview.surfaceProvider)
-                    cameraPreview.scaleType = PreviewView.ScaleType.FIT_CENTER
+                    cameraPreview.scaleType = PreviewView.ScaleType.FILL_CENTER
                     try {
                         // Unbind use cases before rebinding
                         cameraProvider.unbindAll()
